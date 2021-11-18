@@ -1,6 +1,8 @@
 docker build --tag nix github.com/NixOS/docker
 
-docker run --interactive --rm nix sh <<EOF
+docker run --name nix --detach nix sh -c 'while true; do sleep 10; done'
+
+cat >install.sh <<EOF
 # renovate: datasource=github-releases depName=containers/buildah
 BUILDAH_VERSION=1.23.1
 # renovate: datasource=github-releases depName=containers/conmon
@@ -17,6 +19,7 @@ apk add --update-cache --no-cache \
     git \
     go
 
+date
 git clone --recursive https://github.com/containers/buildah.git
 (
     cd buildah
@@ -27,6 +30,7 @@ git clone --recursive https://github.com/containers/buildah.git
 	  cp -rfp ./result/bin/* ./bin/
 )
 
+date
 git clone --recursive https://github.com/containers/conmon.git
 (
     cd conmon
@@ -37,6 +41,7 @@ git clone --recursive https://github.com/containers/conmon.git
 	  cp -rfp ./result/bin/* ./bin/
 )
 
+date
 git clone --recursive https://github.com/containers/crun.git
 (
     cd crun
@@ -47,6 +52,7 @@ git clone --recursive https://github.com/containers/crun.git
 	  cp -rfp ./result/bin/* ./bin/
 )
 
+date
 git clone --recursive https://github.com/containers/podman.git
 (
     cd podman
@@ -57,6 +63,7 @@ git clone --recursive https://github.com/containers/podman.git
 	  cp -rfp ./result/bin/* ./bin/
 )
 
+date
 git clone --recursive https://github.com/containers/skopeo.git
 (
     cd skopeo
@@ -65,3 +72,7 @@ git clone --recursive https://github.com/containers/skopeo.git
     # https://github.com/containers/skopeo/blob/main/install.md#building-a-static-binary
 )
 EOF
+
+docker cp install.sh nix:/
+docker exec -it nix apk add --update-cache --no-cache bash
+docker exec -it nix bash /install.sh
