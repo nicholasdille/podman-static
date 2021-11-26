@@ -1,8 +1,5 @@
-docker build --tag nix github.com/NixOS/docker
+#!/bin/bash
 
-docker run --name nix --detach nix sh -c 'while true; do sleep 10; done'
-
-cat >install.sh <<EOF
 # renovate: datasource=github-releases depName=containers/buildah
 BUILDAH_VERSION=1.23.1
 # renovate: datasource=github-releases depName=containers/conmon
@@ -14,6 +11,11 @@ PODMAN_VERSION=3.4.2
 # renovate: datasource=github-releases depName=containers/skopeo
 SKOPEO_VERSION=1.5.1
 
+docker build --tag nix github.com/NixOS/docker
+
+docker run --name nix --detach nix sh -c 'while true; do sleep 10; done'
+
+cat >install.sh <<EOF
 apk add --update-cache --no-cache \
     bash \
     git \
@@ -74,8 +76,14 @@ git clone --recursive https://github.com/containers/skopeo.git
 EOF
 
 docker cp install.sh nix:/
-docker exec -i nix apk add --update-cache --no-cache bash
-docker exec -i nix bash /install.sh
+docker exec --interactive nix apk add --update-cache --no-cache bash
+docker exec --interactive \
+    --env BUILDAH_VERSION=${BUILDAH_VERSION} \
+    --env CONMON_VERSION=${CONMON_VERSION} \
+    --env CRUN_VERSION=${CRUN_VERSION} \
+    --env PODMAN_VERSION=${PODMAN_VERSION} \
+    --env SKOPEO_VERSION=${SKOPEO_VERSION} \
+    nix bash /install.sh
 
 mkdir ./bin
 docker cp nix:/usr/local/bin/* ./bin/
