@@ -74,8 +74,8 @@ git clone --recursive https://github.com/containers/skopeo.git
 EOF
 
 docker cp install.sh nix:/
-docker exec -it nix apk add --update-cache --no-cache bash
-docker exec -it nix bash /install.sh
+docker exec -i nix apk add --update-cache --no-cache bash
+docker exec -i nix bash /install.sh
 
 mkdir ./bin
 docker cp nix:/usr/local/bin/* ./bin/
