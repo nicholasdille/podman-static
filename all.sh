@@ -27,7 +27,7 @@ git clone --recursive https://github.com/containers/buildah.git
 
     nix build -f nix/
 	  mkdir -p ./bin
-	  cp -rfp ./result/bin/* ./bin/
+	  cp -rfp ./result/bin/* /usr/local/bin/
 )
 
 date
@@ -38,7 +38,7 @@ git clone --recursive https://github.com/containers/conmon.git
 
     nix build -f nix/
 	  mkdir -p ./bin
-	  cp -rfp ./result/bin/* ./bin/
+	  cp -rfp ./result/bin/* /usr/local/bin/
 )
 
 date
@@ -49,7 +49,7 @@ git clone --recursive https://github.com/containers/crun.git
 
     nix build -f nix/
 	  mkdir -p ./bin
-	  cp -rfp ./result/bin/* ./bin/
+	  cp -rfp ./result/bin/* /usr/local/bin/
 )
 
 date
@@ -60,7 +60,7 @@ git clone --recursive https://github.com/containers/podman.git
 
     nix build -f nix/
 	  mkdir -p ./bin
-	  cp -rfp ./result/bin/* ./bin/
+	  cp -rfp ./result/bin/* /usr/local/bin/
 )
 
 date
@@ -76,3 +76,6 @@ EOF
 docker cp install.sh nix:/
 docker exec -it nix apk add --update-cache --no-cache bash
 docker exec -it nix bash /install.sh
+
+mkdir ./bin
+docker cp nix:/usr/local/bin/* ./bin/
