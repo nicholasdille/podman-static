@@ -86,4 +86,4 @@ docker exec --interactive \
     nix bash /install.sh
 
 mkdir ./bin
-docker cp nix:/usr/local/bin/* ./bin/
+docker cp nix:/usr/local/bin/ ./bin/
