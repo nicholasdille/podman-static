@@ -5,7 +5,7 @@ RUN apk add --update-cache --no-cache \
         gcc \
         pkgconf \
         musl-dev \
-	    btrfs-progs \
+        btrfs-progs \
         btrfs-progs-dev \
         libassuan-dev \
         lvm2-dev \
@@ -32,7 +32,8 @@ RUN apk add --update-cache --no-cache \
 ARG PODMAN_VERSION=3.4.2
 ARG PODMAN_BUILDTAGS='seccomp selinux apparmor exclude_graphdriver_devicemapper containers_image_openpgp'
 WORKDIR $GOPATH/src/github.com/containers/podman
-RUN git clone --config advice.detachedHead=false --depth 1 --branch "v${PODMAN_VERSION}" \
+RUN test -n "${PODMAN_VERSION}" \
+ && git clone --config advice.detachedHead=false --depth 1 --branch "v${PODMAN_VERSION}" \
         https://github.com/containers/podman .
 ENV CGO_ENABLED=1
 RUN make bin/podman LDFLAGS_PODMAN="-s -w -extldflags '-static'" BUILDTAGS='${PODMAN_BUILDTAGS}' \
