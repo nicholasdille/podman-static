@@ -23,7 +23,7 @@ jobs:
       - name: Get version
         id: get_version
         run: |
-          echo "::set-output name=version::$(podman --version | cut -d' ' -f3)"
+          echo "::set-output name=version::$(./podman --version | cut -d' ' -f3)"
 
       - name: Create release
         id: create_release
