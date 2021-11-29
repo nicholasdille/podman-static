@@ -26,11 +26,9 @@
 
   "regexManagers": [
     {
-      "fileMatch": [
-        "^scripts/.*\\.sh"
-      ],
+      "fileMatch": ["^Dockerfile$"],
       "matchStrings": [
-        "DATASOURCE=(?<datasource>.+?)\\nREPO=(?<depName>.+?)\\nVERSION=(?<currentValue>.*)\\n(VERSIONING=(?<versioning>.*)\\n)?"
+        "#\\s*renovate:\\s*datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\n(ENV|ARG) .*?_VERSION=(?<currentValue>.*)\\s"
       ],
       "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}"
     }
@@ -38,17 +36,8 @@
 
   "packageRules": [
     {
-      "matchPackageNames": [
-        "containers/crun"
-      ],
-      "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)(\\.(?<patch>\\d+))?$"
-    },
-    {
       "packageNames": [
-        "containers/buildah",
-        "containers/conmon",
-        "containers/podman",
-        "containers/skopeo"
+        "containers/podman"
       ],
       "extractVersion": "^v(?<version>.+)$"
     }
