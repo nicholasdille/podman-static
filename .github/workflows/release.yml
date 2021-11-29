@@ -37,15 +37,5 @@ jobs:
           release_name: "Podman ${{ steps.get_version.outputs.version }}"
           draft: false
           prerelease: true
-
-      - name: Upload amd64 asset
-        id: upload-amd64-asset
-        if: github.event_name != 'pull_request'
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.BOT_GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./podman
-          asset_name: podman
-          asset_content_type: application/octet-stream
+          allowUpdates: true
+          artifacts: "podman"
