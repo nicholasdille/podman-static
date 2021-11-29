@@ -36,8 +36,11 @@ RUN test -n "${PODMAN_VERSION}" \
  && git clone --config advice.detachedHead=false --depth 1 --branch "v${PODMAN_VERSION}" \
         https://github.com/containers/podman .
 ENV CGO_ENABLED=1
-RUN make bin/podman LDFLAGS_PODMAN="-s -w -extldflags '-static'" BUILDTAGS='${PODMAN_BUILDTAGS}' \
- && mv bin/podman /usr/local/bin/podman
+RUN mkdir -p /usr/local/share/man/man1 \
+ && make bin/podman docs LDFLAGS_PODMAN="-s -w -extldflags '-static'" BUILDTAGS='${PODMAN_BUILDTAGS}' \
+ && mv bin/podman /usr/local/bin/podman \
+ && mv docs/build/man/*.1 /usr/local/share/man/man1
 
 FROM scratch AS local
-COPY --from=podman /usr/local/bin/podman .
+COPY --from=podman /usr/local/bin/podman ./bin/
+COPY --from=podman /usr/local/share/man ./share/man/
