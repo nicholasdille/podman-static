@@ -22,11 +22,13 @@ jobs:
 
       - name: Get version
         id: get_version
+        if: github.event_name == 'pull_request'
         run: |
           echo "::set-output name=version::$(./podman --version | cut -d' ' -f3)"
 
       - name: Create release
         id: create_release
+        if: github.event_name == 'pull_request'
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.BOT_GITHUB_TOKEN }}
@@ -38,6 +40,7 @@ jobs:
 
       - name: Upload amd64 asset
         id: upload-amd64-asset
+        if: github.event_name == 'pull_request'
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.BOT_GITHUB_TOKEN }}

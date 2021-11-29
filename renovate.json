@@ -1,7 +1,14 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:base"
+    "config:base",
+    "docker:enableMajor",
+    "docker:pinDigests",
+    ":disableRateLimiting",
+    ":automergePr",
+    ":automergeRequireAllStatusChecks",
+    ":automergePatch",
+    ":semanticCommits"
   ],
 
   "enabledManagers": [
@@ -35,6 +42,10 @@
   ],
 
   "packageRules": [
+    {
+      "updateTypes": ["pin", "digest", "patch", "minor", "major"],
+      "automerge": true
+    },
     {
       "packageNames": [
         "containers/podman"
