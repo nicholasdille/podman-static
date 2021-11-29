@@ -39,6 +39,6 @@ jobs:
           tag: v${{ steps.get_version.outputs.version }}
           draft: false
           omitBody: true
-          prerelease: true
+          prerelease: false
           replacesArtifacts: true
           artifacts: "podman"
