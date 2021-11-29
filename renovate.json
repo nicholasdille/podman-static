@@ -43,14 +43,16 @@
 
   "packageRules": [
     {
-      "updateTypes": ["pin", "digest", "patch", "minor", "major"],
+      "updateTypes": ["pin", "digest", "patch"],
       "automerge": true
     },
     {
       "packageNames": [
         "containers/podman"
       ],
-      "extractVersion": "^v(?<version>.+)$"
+      "extractVersion": "^v(?<version>.+)$",
+      "updateTypes": ["pin", "digest", "patch", "minor", "major"],
+      "automerge": true
     }
   ]
 }
