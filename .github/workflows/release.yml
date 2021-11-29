@@ -33,7 +33,7 @@ jobs:
         with:
           token: ${{ secrets.BOT_GITHUB_TOKEN }}
           allowUpdates: true
-          name: "Podman ${{ steps.get_version.outputs.version }}"
+          name: "podman ${{ steps.get_version.outputs.version }}"
           tag: v${{ steps.get_version.outputs.version }}^
           draft: false
           omitBody: true
