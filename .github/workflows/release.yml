@@ -27,7 +27,7 @@ jobs:
         id: get_version
         if: github.event_name != 'pull_request'
         run: |
-          echo "::set-output name=version::$(./podman --version | cut -d' ' -f3)"
+          echo "::set-output name=version::$(./bin/podman --version | cut -d' ' -f3)"
 
       - name: Create release
         id: create_release
