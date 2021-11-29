@@ -29,13 +29,14 @@ jobs:
       - name: Create release
         id: create_release
         if: github.event_name != 'pull_request'
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.BOT_GITHUB_TOKEN }}
+        uses: ncipollo/release-action@v1
         with:
-          tag_name: v${{ steps.get_version.outputs.version }}
-          release_name: "Podman ${{ steps.get_version.outputs.version }}"
-          draft: false
-          prerelease: true
+          token: ${{ secrets.BOT_GITHUB_TOKEN }}
           allowUpdates: true
+          name: "Podman ${{ steps.get_version.outputs.version }}"
+          tag: v${{ steps.get_version.outputs.version }}^
+          draft: false
+          omitBody: true
+          prerelease: true
+          replacesArtifacts: true
           artifacts: "podman"
