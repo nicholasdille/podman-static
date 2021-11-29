@@ -18,7 +18,9 @@ jobs:
         env:
           DOCKER_BUILDKIT: 1
         run: |
-          docker build --output type=local,dest=. --target local .
+          docker build . \
+              --target local \
+              --output type=local,dest=.
 
       - name: Get version
         id: get_version

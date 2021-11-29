@@ -10,18 +10,18 @@ RUN apk add --update-cache --no-cache \
         libassuan-dev \
         lvm2-dev \
         device-mapper \
-	    glib-static \
+        glib-static \
         libc-dev \
         gpgme-dev \
         protobuf-dev \
         protobuf-c-dev \
-	    libseccomp-dev \
+        libseccomp-dev \
         libseccomp-static \
         libselinux-dev \
         ostree-dev \
         openssl \
         iptables \
-	    bash \
+        bash \
         go-md2man
 
 FROM base AS podman
