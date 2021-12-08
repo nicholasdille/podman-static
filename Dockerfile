@@ -29,7 +29,7 @@ RUN apk add --update-cache --no-cache \
         tzdata \
         curl
 # renovate: datasource=github-releases depName=containers/podman
-ARG PODMAN_VERSION=3.4.2
+ARG PODMAN_VERSION=3.4.3
 ARG PODMAN_BUILDTAGS='seccomp selinux apparmor exclude_graphdriver_devicemapper containers_image_openpgp'
 WORKDIR $GOPATH/src/github.com/containers/podman
 RUN test -n "${PODMAN_VERSION}" \
