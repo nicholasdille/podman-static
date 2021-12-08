@@ -14,6 +14,7 @@ RUN mkdir -p \
         /usr/local/share/zsh/vendor-completions \
  && nix build -f nix \
  && cp -rfp ./result/bin/podman /usr/local/bin/ \
+ && make docs GOMD2MAN=/usr/bin/go-md2man \
  && cp docs/build/man/*.1 /usr/local/share/man/man1 \
  && cp completions/bash/podman /usr/local/share/bash-completion/completions/podman \
  && cp completions/fish/podman.fish /usr/local/share/fish/vendor_completions.d/podman.fish \
