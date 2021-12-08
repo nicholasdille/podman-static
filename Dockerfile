@@ -1,30 +1,4 @@
-FROM ubuntu:20.04 AS build
-ARG DEBIAN_FRONTEND=noninteractive
-RUN ln -fs /usr/share/zoneinfo/Europe/Berlin /etc/localtime \
- && apt-get update \
- && apt-get -y install --no-install-recommends \
-        golang \
-        git \
-        make \
-        gcc \
-        pkgconf \
-        libbtrfs-dev \
-        libassuan-dev \
-        liblvm2-dev \
-        libdevmapper-dev \
-        libgpgme-dev \
-        libprotobuf-dev \
-        libprotobuf-c-dev \
-        libseccomp-dev \
-        libselinux1-dev \
-        ostree \
-        openssl \
-        iptables \
-        bash \
-        go-md2man \
-        curl \
-        ca-certificates
-
+FROM nix AS build
 # renovate: datasource=github-releases depName=containers/podman
 ARG PODMAN_VERSION=3.4.3
 ARG PODMAN_BUILDTAGS='seccomp selinux apparmor exclude_graphdriver_devicemapper containers_image_openpgp'
@@ -33,11 +7,21 @@ RUN test -n "${PODMAN_VERSION}" \
  && git clone --config advice.detachedHead=false --depth 1 --branch "v${PODMAN_VERSION}" \
         https://github.com/containers/podman .
 ENV CGO_ENABLED=1
-RUN mkdir -p /usr/local/share/man/man1 \
- && make bin/podman docs LDFLAGS_PODMAN="-s -w -extldflags '-static'" BUILDTAGS='${PODMAN_BUILDTAGS}' \
- && mv bin/podman /usr/local/bin/podman \
- && mv docs/build/man/*.1 /usr/local/share/man/man1
+RUN mkdir -p \
+        /usr/local/share/man/man1 \
+        /usr/local/share/bash-completion/completions \
+        /usr/local/share/fish/vendor_completions.d \
+        /usr/local/share/zsh/vendor-completions
+ && nix build -f nix \
+ && cp -rfp ./result/bin/podman /usr/local/bin/ \
+ && cp docs/build/man/*.1 /usr/local/share/man/man1 \
+ && cp completions/bash/podman /usr/local/share/bash-completion/completions/podman \
+ && cp completions/fish/podman.fish /usr/local/share/fish/vendor_completions.d/podman.fish \
+ && cp completions/zsh/_podman /usr/local/share/zsh/vendor-completions/_podman
 
 FROM scratch AS local
 COPY --from=build /usr/local/bin/podman ./bin/
 COPY --from=build /usr/local/share/man ./share/man/
+COPY --from=build /usr/local/share/bash-completion ./share/bash-completion/
+COPY --from=build /usr/local/share/fish ./share/fish/
+COPY --from=build /usr/local/share/zsh ./share/zsh/
