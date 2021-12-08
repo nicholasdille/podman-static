@@ -1,7 +1,8 @@
 FROM nix AS build
 RUN apk add --update-cache --no-cache \
         make \
-        go-md2man
+        go-md2man \
+        bash
 # renovate: datasource=github-releases depName=containers/podman
 ARG PODMAN_VERSION=3.4.3
 ARG PODMAN_BUILDTAGS='seccomp selinux apparmor exclude_graphdriver_devicemapper containers_image_openpgp'
@@ -9,7 +10,8 @@ WORKDIR $GOPATH/src/github.com/containers/podman
 RUN test -n "${PODMAN_VERSION}" \
  && git clone --config advice.detachedHead=false --depth 1 --branch "v${PODMAN_VERSION}" \
         https://github.com/containers/podman .
-ENV CGO_ENABLED=1
+ENV CGO_ENABLED=1 \
+    GOOS=linux
 RUN mkdir -p \
         /usr/local/share/man/man1 \
         /usr/local/share/bash-completion/completions \
