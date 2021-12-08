@@ -11,7 +11,7 @@ RUN mkdir -p \
         /usr/local/share/man/man1 \
         /usr/local/share/bash-completion/completions \
         /usr/local/share/fish/vendor_completions.d \
-        /usr/local/share/zsh/vendor-completions
+        /usr/local/share/zsh/vendor-completions \
  && nix build -f nix \
  && cp -rfp ./result/bin/podman /usr/local/bin/ \
  && cp docs/build/man/*.1 /usr/local/share/man/man1 \

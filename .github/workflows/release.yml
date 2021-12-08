@@ -14,6 +14,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Build nix
+        env:
+          DOCKER_BUILDKIT: 1
+        run: |
+          docker build --tag nix github.com/NixOS/docker
+
       - name: Build
         env:
           DOCKER_BUILDKIT: 1
@@ -21,6 +27,7 @@ jobs:
           docker build . \
               --target local \
               --output type=local,dest=.; \
+          ./bin/podman --version; \
           tar -czf podman.tar.gz bin share
 
       - name: Get version
