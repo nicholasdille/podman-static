@@ -1,4 +1,7 @@
 FROM nix AS build
+RUN apk add --update-cache --no-cache \
+        make \
+        go-md2man
 # renovate: datasource=github-releases depName=containers/podman
 ARG PODMAN_VERSION=3.4.3
 ARG PODMAN_BUILDTAGS='seccomp selinux apparmor exclude_graphdriver_devicemapper containers_image_openpgp'
