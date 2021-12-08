@@ -1,33 +1,30 @@
-FROM golang:1.16-alpine3.14 AS base
-RUN apk add --update-cache --no-cache \
+FROM ubuntu:20.04 AS build
+ARG DEBIAN_FRONTEND=noninteractive
+RUN ln -fs /usr/share/zoneinfo/Europe/Berlin /etc/localtime \
+ && apt-get update \
+ && apt-get -y install --no-install-recommends \
+        golang \
         git \
         make \
         gcc \
         pkgconf \
-        musl-dev \
-        btrfs-progs \
-        btrfs-progs-dev \
+        libbtrfs-dev \
         libassuan-dev \
-        lvm2-dev \
-        device-mapper \
-        glib-static \
-        libc-dev \
-        gpgme-dev \
-        protobuf-dev \
-        protobuf-c-dev \
+        liblvm2-dev \
+        libdevmapper-dev \
+        libgpgme-dev \
+        libprotobuf-dev \
+        libprotobuf-c-dev \
         libseccomp-dev \
-        libseccomp-static \
-        libselinux-dev \
-        ostree-dev \
+        libselinux1-dev \
+        ostree \
         openssl \
         iptables \
         bash \
-        go-md2man
+        go-md2man \
+        curl \
+        ca-certificates
 
-FROM base AS podman
-RUN apk add --update-cache --no-cache \
-        tzdata \
-        curl
 # renovate: datasource=github-releases depName=containers/podman
 ARG PODMAN_VERSION=3.4.3
 ARG PODMAN_BUILDTAGS='seccomp selinux apparmor exclude_graphdriver_devicemapper containers_image_openpgp'
@@ -42,5 +39,5 @@ RUN mkdir -p /usr/local/share/man/man1 \
  && mv docs/build/man/*.1 /usr/local/share/man/man1
 
 FROM scratch AS local
-COPY --from=podman /usr/local/bin/podman ./bin/
-COPY --from=podman /usr/local/share/man ./share/man/
+COPY --from=build /usr/local/bin/podman ./bin/
+COPY --from=build /usr/local/share/man ./share/man/
