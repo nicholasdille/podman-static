@@ -10,7 +10,7 @@ RUN test -n "${PODMAN_VERSION}" \
  && git clone --config advice.detachedHead=false --depth 1 --branch "v${PODMAN_VERSION}" \
         https://github.com/containers/podman .
 
-FROM nixos/nix:2.7.0@sha256:fc55b9bf9f61742a3fc262c0dc9ad62ea8ace014bb5bd4b11341da879e7b26ce AS binaries
+FROM nixos/nix:2.8.0@sha256:cafda2d5f9de275ca0b6cf617d2664200fb96082a23c0ee070c130938f2e9197 AS binaries
 COPY --from=clone /tmp/podman /tmp/podman
 WORKDIR /tmp/podman
 RUN nix build -f nix --extra-experimental-features nix-command \
