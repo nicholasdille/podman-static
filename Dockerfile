@@ -14,7 +14,7 @@ FROM nixos/nix:2.8.0@sha256:cafda2d5f9de275ca0b6cf617d2664200fb96082a23c0ee070c1
 COPY --from=clone /tmp/podman /tmp/podman
 WORKDIR /tmp/podman
 RUN nix build -f nix --extra-experimental-features nix-command \
- && cp -rfp ./result/bin/podman /usr/local/bin/ \
+ && cp -rfp ./result/bin/podman /usr/local/bin/
 
 FROM alpine:3.15@sha256:4edbd2beb5f78b1014028f4fbb99f3237d9561100b6881aabbf5acce2c4f9454 AS manpages
 RUN apk add --update-cache --no-cache \
