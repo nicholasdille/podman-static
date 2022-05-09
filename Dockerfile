@@ -1,4 +1,4 @@
-FROM ubuntu:20.04@sha256:47f14534bda344d9fe6ffd6effb95eefe579f4be0d508b7445cf77f61a0e5724 AS clone
+FROM ubuntu:22.04
 # renovate: datasource=github-releases depName=containers/podman
 ARG PODMAN_VERSION=3.4.4
 RUN apt-get update \
