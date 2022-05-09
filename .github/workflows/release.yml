@@ -34,8 +34,8 @@ jobs:
           docker build . \
               --platform linux/${{ matrix.arch }} \
               --target local \
-              --output type=local,dest=.; \
-          tar -czf podman-${{ matrix.arch }}.tar.gz bin share
+              --output type=tar,dest=podman-${{ matrix.arch }}.tar; \
+          gzip podman-${{ matrix.arch }}.tar
 
       - name: Store tarball
         uses: actions/upload-artifact@v3
