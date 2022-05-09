@@ -1,4 +1,4 @@
-FROM ubuntu:22.04
+FROM ubuntu:22.04@sha256:26c68657ccce2cb0a31b330cb0be2b5e108d467f641c62e13ab40cbec258c68d
 # renovate: datasource=github-releases depName=containers/podman
 ARG PODMAN_VERSION=3.4.4
 RUN apt-get update \
