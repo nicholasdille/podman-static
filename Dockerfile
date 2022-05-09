@@ -1,4 +1,4 @@
-FROM ubuntu:22.04@sha256:26c68657ccce2cb0a31b330cb0be2b5e108d467f641c62e13ab40cbec258c68d
+FROM ubuntu:22.04@sha256:26c68657ccce2cb0a31b330cb0be2b5e108d467f641c62e13ab40cbec258c68d AS clone
 # renovate: datasource=github-releases depName=containers/podman
 ARG PODMAN_VERSION=3.4.4
 RUN apt-get update \
@@ -37,7 +37,7 @@ RUN mkdir -p \
  && cp completions/zsh/_podman /usr/local/share/zsh/vendor-completions/_podman
 
 FROM scratch AS local
-COPY --from=build    /usr/local/bin/podman ./bin/
+COPY --from=binaries /usr/local/bin/podman ./bin/
 COPY --from=manpages /usr/local/share/man ./share/man/
 COPY --from=manpages /usr/local/share/bash-completion ./share/bash-completion/
 COPY --from=manpages /usr/local/share/fish ./share/fish/
