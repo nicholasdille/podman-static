@@ -1,6 +1,6 @@
 #syntax=docker/dockerfile:1.4.3
 
-FROM ubuntu:22.04@sha256:34fea4f31bf187bc915536831fd0afc9d214755bf700b5cdb1336c82516d154e AS clone
+FROM ubuntu:22.04@sha256:86181188d631f0699afaefb177631b21a6d692629679443197472a3df6355012 AS clone
 # renovate: datasource=github-releases depName=containers/podman
 ARG PODMAN_VERSION=4.2.0
 RUN apt-get update \
