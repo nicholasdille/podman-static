@@ -47,7 +47,7 @@
         "#syntax=(?<depName>.*?):(?<currentValue>.*?)\\n"
       ],
       "datasourceTemplate": "docker"
-    },
+    }
   ],
 
   "packageRules": [
