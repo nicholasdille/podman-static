@@ -2,7 +2,7 @@
 
 FROM ubuntu:22.04@sha256:9a0bdde4188b896a372804be2384015e90e3f84906b750c1a53539b585fbbe7f AS clone
 # renovate: datasource=github-releases depName=containers/podman
-ARG PODMAN_VERSION=4.4.0
+ARG PODMAN_VERSION=4.4.1
 RUN apt-get update \
  && apt-get -y install --no-install-recommends \
         git \
