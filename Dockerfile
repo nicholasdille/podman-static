@@ -1,4 +1,4 @@
-#syntax=docker/dockerfile:1.5.1
+#syntax=docker/dockerfile:1.5.2
 
 FROM ubuntu:22.04@sha256:9a0bdde4188b896a372804be2384015e90e3f84906b750c1a53539b585fbbe7f AS clone
 # renovate: datasource=github-releases depName=containers/podman
